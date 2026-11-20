@@ -1,0 +1,12 @@
+--- a/assoc_index.py
++++ b/assoc_index.py
+@@ -307,6 +307,9 @@
+             return []
+         prompt = (
+             "Use concise Chinese for cue_text. Create 0 to 4 retrieval cues for this single memory event. Cues are search aids, not facts. "
++            "Keep the concrete topic or distinctive detail searchable. If grounded in this episode, use one of the same slots "
++            "for its distinctive roles, action or constraint, phrased in ordinary language that would also make sense "
++            "in a conversation about a different topic. "
+             "Each item has cue_text, cue_type (situation|question|detail|unfinished), and quote. quote must be an exact, distinct, "
+             "contiguous literal excerpt from evidence, at most 220 chars. Also provide plan_state (planned|unknown), plan_quote, "
+             "outcome_state (completed|cancelled|rescheduled|unknown), and outcome_quote. Mark planned only for a clear first-person "

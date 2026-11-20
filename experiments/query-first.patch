@@ -1,0 +1,26 @@
+--- a/assoc_recall.py
++++ b/assoc_recall.py
+@@ -150,10 +150,10 @@
+     async def _predict(self, context: str) -> list[str]:
+         raw = await self._ask(
+-            "From this recent conversation, return JSON only: "
++            "From the completed conversation, return only JSON, with Chinese search text: "
+             '{"situations":[...],"possible_questions":[...]}. '
+-            "Return at most one concise situation cue and one plausible follow-up question, "
+-            "when each adds a distinct search direction. Keep them complementary and concise. "
+-            "Do not invent past facts; these are search queries only.",
++            "Keep one concrete situation including the actual subject. For the second direction, if the speakers describe "
++            "a distinctive interaction, state that interaction in one short Chinese declarative sentence. Fill in the actual roles, "
++            "action and constraint; no generic who/what questions. Otherwise keep a useful follow-up or leave empty. Invent no history.",
+             context,
+             max_tokens=240,
+         )
+@@ -163,7 +163,7 @@
+         for key in ("situations","possible_questions"):
+             items=parsed.get(key)
+             group=[x.strip()[:400] for x in items if isinstance(x,str) and x.strip()] if isinstance(items,list) else []
+             groups.append(group)
+-        ordered=[g[0] for g in groups if g]+[v for g in groups for v in g[1:]]
++        ordered=[g[0] for g in groups if g]
+         result=[];seen=set()
+         for value in ordered:

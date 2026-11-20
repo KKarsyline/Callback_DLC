@@ -1,0 +1,19 @@
+--- a/assoc_index.py
++++ b/assoc_index.py
+@@ -307,12 +307,6 @@
+             return []
+-        prompt = (
+-            "Use concise Chinese for cue_text. Create 0 to 4 retrieval cues for this single memory event. Cues are search aids, not facts. "
+-            "Each item has cue_text, cue_type (situation|question|detail|unfinished), and quote. quote must be an exact, distinct, "
+-            "contiguous literal excerpt from evidence, at most 220 chars. Also provide plan_state (planned|unknown), plan_quote, "
+-            "outcome_state (completed|cancelled|rescheduled|unknown), and outcome_quote. Mark planned only for a clear first-person "
+-            "commitment or scheduled intention, not a wish, hypothetical, question, or date alone. Outcomes require an explicit statement "
+-            "about that same event; reject negation, hypothetical language, unrelated actions, and date-only evidence. Quotes must be exact "
+-            "literal excerpts, otherwise use unknown and an empty quote. Old unfinished wording is not proof of a plan. Do not infer motives "
+-            "or stable traits. Return {\"cues\":[...]}.\nEVIDENCE:\n" + source
+-        )
++        prompt = (
++            "用简洁中文为这段单一记忆生成0到4条检索线索；线索必须有原文依据，不得补造事实。若原文支持具体情境，第一条优先写成 situation：用普通、自然、未来对话者能直接接上的一句话，交代相关角色的行动或打算，以及这件事独特的限制、条件或卡点；尽量用角色称呼和泛称，使线索不依赖具体人名或物件名也能理解，同时保留真正有辨识度的细节。不要把纯日期或孤立事实硬改成情境。原文没有足够依据时，不要强造 situation；可按证据写 question、detail 或 unfinished。若情境线索没有容纳主题或独特细节，再用另一条短线索保留它。每条只表达一个重点，措辞精炼，避免重复。\n"
++            "每项必需字段为 cue_text、cue_type（situation|question|detail|unfinished）和 quote。quote 必须是证据中逐字、连续的原文摘录，彼此不同，且不超过220字符。只有有明确证据时才填写可选字段：plan_state（planned）和 plan_quote；outcome_state（completed|cancelled|rescheduled）和 outcome_quote。未知或无依据的可选字段可省略。planned 仅用于明确的第一人称承诺或已安排的打算，不适用于愿望、假设、问题或单独日期。结果必须明确指向同一事件；否定、假设、无关行动或单独日期均不构成证据。所有引文必须逐字准确；旧的未完成措辞不能证明存在计划。不要推断动机或稳定特征。只输出紧凑的 JSON：{\"cues\":[...]}。\nEVIDENCE:\n" + source
++        )
+         parsed = self._parse_json(await self._complete(prompt))
