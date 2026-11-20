@@ -123,6 +123,8 @@ python3.12 -m venv .venv
 
 作者：KKarsyline、Codex、Claude Code。
 
+KKarsyline 提出联想召回的需求并确定聊天体验；Claude Code 参与召回架构设计，Codex 负责整合实现、接入测试与发布。
+
 本包采用 [PolyForm Noncommercial License 1.0.0](LICENSE)，可按条款非商业使用、修改和分享；分发时请保留许可和所需署名。依赖各自遵循原许可。
 
 ## 参考资料与致谢
