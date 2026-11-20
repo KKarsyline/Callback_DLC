@@ -71,7 +71,7 @@ SQL、笔记文件或向量库都可以接。关键条件是能按稳定 ID 回�
 
 ### 两条路线共用 · 接聊天应用
 
-1. **配置客户端。** [RecallModel、GatewayJudge](providers.py) 与 [EmbeddingEngine](embedding_engine.py) 接受宿主自己的客户端和模型名。普通查询与联想共用同一个嵌入实例。给网关指定可写的 `budget_db`，或设置 `ASSOC_GATEWAY_BUDGET_DB`。我们用 DeepSeek V4 Flash（`deepseek/deepseek-v4-flash-0731`）生成和核对记忆线索，也用它判断哪条候选适合当前对话。这个 SLM 选型仅供参考，接入时可自行选择兼容的模型。
+1. **配置客户端。** [RecallModel、GatewayJudge](providers.py) 与 [EmbeddingEngine](embedding_engine.py) 接受宿主自己的客户端和模型名。普通查询与联想共用同一个嵌入实例。给网关指定可写的 `budget_db`，或设置 `ASSOC_GATEWAY_BUDGET_DB`。推荐用 DeepSeek V4.1 Flash（`deepseek/deepseek-v4.1-flash-1017`）生成和核对记忆线索，也用它判断哪条候选适合当前对话。这个 SLM 选型仅供参考，接入时可自行选择兼容的模型。
 2. **接消息和分支。** 实现 `list_active_path`（已落盘、当前分支、可见的对话）和 `completed_assistant_path`（该路径最近六个完成的助手消息 ID）。不计取消、工具输出或空回复。只有同步 `search(query)` 的宿主可以先接检索层；完整的轮间预备和提及冷却需要聊天生命周期。
 3. **在原聊天入口接线。** 下面变量由宿主提供。用户消息先落盘；`plan` 返回路由与实际查询，`lookup` 保留原直接检索；`reply_and_commit` 把直接上下文与额外证据交给模型，只在回复保存后返回助手消息 ID 和最终可见文本。
 
